@@ -17,13 +17,13 @@ export type TConstructorIngredient = TIngredient & {
 };
 
 export type TOrder = {
-  _id: string;
-  status: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  number: number;
-  ingredients: string[];
+  _id: string; // Идентификатор заказа
+  status: string; // Статус заказа
+  name: string; // Название заказа
+  createdAt: string; // Дата создания заказа
+  updatedAt: string; // Дата обновления заказа
+  number: number; // Номер заказаз
+  ingredients: string[]; // Массив идентификаторов ингредиентов
 };
 
 export type TOrdersData = {

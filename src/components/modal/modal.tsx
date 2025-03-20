@@ -10,11 +10,14 @@ export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       e.key === 'Escape' && onClose();
+      console.log('Нажата кнопка эскейп');
     };
 
     document.addEventListener('keydown', handleEsc);
+    console.log('Установлен слушатель эскейпа');
     return () => {
       document.removeEventListener('keydown', handleEsc);
+      console.log('Удалён слушатель эскейпа');
     };
   }, [onClose]);
 
