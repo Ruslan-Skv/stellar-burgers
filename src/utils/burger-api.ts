@@ -241,7 +241,7 @@ export const updateUserApi = (user: Partial<TRegisterData>) =>
   });
 
 //Выходит из системы. (применяем в слайсе)
-export const logoutApi = () =>
+export const logoutApi = (refreshToken: string) =>
   fetch(`${URL}/auth/logout`, {
     method: 'POST',
     headers: {

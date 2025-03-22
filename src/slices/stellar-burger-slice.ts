@@ -18,6 +18,7 @@ import {
   TOrder,
   TUser
 } from '@utils-types';
+import { deleteCookie } from 'src/utils/cookie';
 import { v4 as uuidv4 } from 'uuid';
 
 // type TBun = {
@@ -69,18 +70,26 @@ export const initialState: TInitialState = {
   errorText: ''
 };
 
+// Action creator для добавления ингредиента
+export const addIngredientAction = (ingredient: TIngredient) => ({
+  type: 'stellarBurger/addIngredient',
+  payload: {
+    ...ingredient,
+    id: uuidv4() // Генерация uuid здесь
+  }
+});
+
 const stellarBurgerSlice = createSlice({
   name: 'stellarBurger',
   initialState,
   reducers: {
-    //Добавление ингредиента
-    addIngredient(state, action: PayloadAction<TIngredient>) {
+    addIngredient(state, action: PayloadAction<TIngredient & { id: string }>) {
       if (action.payload.type === 'bun') {
         state.constructorItems.bun = action.payload; // Добавляем булочку
       } else {
         state.constructorItems.ingredients.push({
           ...action.payload,
-          id: uuidv4() // Добавляем ингредиент с уникальным ID
+          id: action.payload.id // Используем id из payload
         });
       }
     },
@@ -157,6 +166,11 @@ const stellarBurgerSlice = createSlice({
         action.payload
       );
     }
+    // // Сбрасываем данные пользователя
+    // resetUser(state) {
+    //   state.user = { name: '', email: '' }; // Сбрасываем данные пользователя
+    //   state.isAuthenticated = false; // Сбрасываем флаг аутентификации
+    // }
   },
   selectors: {
     selectIngredients: (state) => state.ingredients, // Получить список ингредиентов
@@ -201,30 +215,35 @@ const stellarBurgerSlice = createSlice({
       //Логин пользователя
       .addCase(fetchLoginUser.pending, (state) => {
         state.loading = true; // Устанавливаем флаг загрузки
+        state.errorText = ''; // Очищаем текст ошибки
       })
       .addCase(fetchLoginUser.rejected, (state, action) => {
         state.loading = false; // Сбрасываем флаг загрузки
-        state.errorText = action.error.message || 'Произошла ошибка'; // Устанавливаем текст ошибки
+        state.errorText = (action.payload as string) || 'Произошла ошибка'; // Устанавливаем текст ошибки из action.payload
       })
       .addCase(fetchLoginUser.fulfilled, (state, action) => {
         state.loading = false; // Сбрасываем флаг загрузки
         state.isAuthenticated = true; // Устанавливаем флаг аутентификации
+        state.errorText = ''; // Очищаем текст ошибки
       })
       //Регистрация пользователя
       .addCase(fetchRegisterUser.pending, (state) => {
         state.loading = true; // Устанавливаем флаг загрузки
+        state.errorText = '';
       })
       .addCase(fetchRegisterUser.rejected, (state, action) => {
         state.loading = false; // Сбрасываем флаг загрузки
-        state.errorText = action.error.message || 'Произошла ошибка'; // Устанавливаем текст ошибки
+        state.errorText = (action.payload as string) || 'Произошла ошибка'; // Устанавливаем текст ошибки
       })
       .addCase(fetchRegisterUser.fulfilled, (state, action) => {
         state.loading = false; // Сбрасываем флаг загрузки
         state.isAuthenticated = true; // Устанавливаем флаг аутентификации
+        state.errorText = '';
       })
       //Получение данных пользователя
       .addCase(getUserThunk.pending, (state) => {
         state.loading = true; // Устанавливаем флаг загрузки
+        state.errorText = '';
       })
       .addCase(getUserThunk.rejected, (state, action) => {
         state.loading = false; // Сбрасываем флаг загрузки
@@ -267,20 +286,22 @@ const stellarBurgerSlice = createSlice({
       })
       .addCase(fetchLogout.rejected, (state) => {
         state.loading = false; // Сбрасываем флаг загрузки
+        state.user = { name: '', email: '' }; // Сбрасываем данные пользователя
+        state.isAuthenticated = false; // Сбрасываем флаг аутентификации
       })
-      .addCase(fetchLogout.fulfilled, (state, action) => {
+      .addCase(fetchLogout.fulfilled, (state) => {
         state.loading = false; // Сбрасываем флаг загрузки
-        if (action.payload.success) {
-          state.user = { name: '', email: '' }; // Очищаем данные пользователя
-          state.isAuthenticated = false; // Сбрасываем флаг аутентификации
-        }
+        state.user = { name: '', email: '' }; // Очищаем данные пользователя
+        state.isAuthenticated = false; // Сбрасываем флаг аутентификации
       })
       // Обновление данных пользователя
       .addCase(fetchUpdateUser.pending, (state) => {
         state.loading = true; // Устанавливаем флаг загрузки
+        state.errorText = '';
       })
-      .addCase(fetchUpdateUser.rejected, (state) => {
+      .addCase(fetchUpdateUser.rejected, (state, action) => {
         state.loading = false; // Сбрасываем флаг загрузки
+        state.errorText = (action.payload as string) || 'Произошла ошибка';
       })
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {
         state.loading = false; // Сбрасываем флаг загрузки
@@ -295,52 +316,60 @@ const stellarBurgerSlice = createSlice({
 // Загрузка ингредиентов (вызываем в App, Feed, ProfileOrders)
 export const fetchIngredients = createAsyncThunk(
   'ingredients/getAll',
-  async () => getIngredientsApi()
+  getIngredientsApi
 );
 
 //Создание нового заказа (вызываем в BurgerConstructor)
 export const fetchNewOrder = createAsyncThunk(
   'orders/newOrder',
-  async (data: string[]) => orderBurgerApi(data)
+  orderBurgerApi
 );
 
 //Логин пользователя (применяем в Login)
 export const fetchLoginUser = createAsyncThunk(
   'user/login',
-  async (data: TLoginData) => loginUserApi(data)
+  async (data: TLoginData, { rejectWithValue }) => {
+    try {
+      const response = await loginUserApi(data);
+      return response;
+    } catch (error) {
+      // Обрабатываем ошибку и передаем её в редьюсер
+      return rejectWithValue((error as Error).message || 'Ошибка авторизации');
+    }
+  }
 );
 
 //Регистрация пользователя (применяем в Register)
 export const fetchRegisterUser = createAsyncThunk(
   'user/register',
-  async (data: TRegisterData) => registerUserApi(data)
+  registerUserApi
 );
 
 //Получение данных пользователя (вызываем в App, Register)
-export const getUserThunk = createAsyncThunk('user/get', async () =>
-  getUserApi()
-);
+export const getUserThunk = createAsyncThunk('user/get', getUserApi);
 
 // Получение ленты заказов (вызываем в App, Feed)
-export const fetchFeed = createAsyncThunk('user/feed', async () =>
-  getFeedsApi()
-);
+export const fetchFeed = createAsyncThunk('user/feed', getFeedsApi);
 
 //Получение заказов пользователя (применяем в ProfileOrders)
-export const fetchUserOrders = createAsyncThunk('user/orders', async () =>
-  getOrdersApi()
-);
+export const fetchUserOrders = createAsyncThunk('user/orders', getOrdersApi);
 
 // Выход пользователя (вызываем в ProfileMenu)
-export const fetchLogout = createAsyncThunk('user/logout', async () =>
-  logoutApi()
+export const fetchLogout = createAsyncThunk(
+  'user/logout',
+  async (_, { dispatch }) => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      const response = await logoutApi(refreshToken); // Вызов API для выхода
+      return response;
+    }
+    // Если refreshToken отсутствует, просто возвращаем успешный ответ
+    return { success: true };
+  }
 );
 
 //Обновление данных пользователя (применяем в Profile)
-export const fetchUpdateUser = createAsyncThunk(
-  'user/update',
-  async (user: Partial<TRegisterData>) => updateUserApi(user)
-);
+export const fetchUpdateUser = createAsyncThunk('user/update', updateUserApi);
 
 export const {
   selectLoading, // Получить флаг загрузки (Получаем в ConstructorPage, Login, Profile, Register)
@@ -373,5 +402,6 @@ export const {
   removeErrorText, //Удаление текста ошибки (применяем в Login, Register)
   moveIngredientUp, //Перемещение ингредиента вверх (применяем в BurgerConstructorElement)
   moveIngredientDown //Перемещение ингредиента вниз (применяем в BurgerConstructorElement)
+  // resetUser
 } = stellarBurgerSlice.actions;
 export default stellarBurgerSlice.reducer;

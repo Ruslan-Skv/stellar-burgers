@@ -21,6 +21,7 @@ import {
   closeModal,
   fetchFeed,
   fetchIngredients,
+  fetchLogout,
   getUserThunk,
   init,
   selectIngredients,
@@ -39,6 +40,7 @@ export const App = () => {
   const token = getCookie('accessToken');
   const feed = useSelector(selectOrders);
   const isModalOpened = useSelector(selectIsModalOpened);
+  const navigate = useNavigate();
 
   // Инициализация приложения: проверка аутентификации и загрузка данных
   useEffect(() => {
@@ -74,11 +76,11 @@ export const App = () => {
     }
   }, [feed.length, dispatch]);
 
-  const navigate = useNavigate();
-
-  // const handleClose = () => {
-  //   navigate(-1); // Возвращает на предыдущую страницу
-  // };
+  // Обработка выхода пользователя
+  const handleLogout = async () => {
+    await dispatch(fetchLogout()); // Выполняем выход
+    navigate('/login'); // Редирект на страницу входа
+  };
 
   return (
     <div className={styles.app}>
@@ -136,7 +138,6 @@ export const App = () => {
         />
         <Route path='*' element={<NotFound404 />} />
 
-        {/* Маршруты для модальных окон */}
         <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
@@ -150,7 +151,7 @@ export const App = () => {
       </Routes>
 
       {/* Рендерим модальные окна, если есть background */}
-      {isModalOpened && background && (
+      {background && (
         <Routes>
           <Route
             path='/feed/:number'
@@ -159,6 +160,7 @@ export const App = () => {
                 title={'Заказ'}
                 onClose={() => {
                   dispatch(closeModal());
+                  navigate(-1);
                 }}
               >
                 <OrderInfo />
@@ -172,6 +174,7 @@ export const App = () => {
                 title={'Детали ингредиента'}
                 onClose={() => {
                   dispatch(closeModal());
+                  navigate(-1);
                 }}
               >
                 <IngredientDetails />
@@ -186,6 +189,7 @@ export const App = () => {
                   title={'Заказ'}
                   onClose={() => {
                     dispatch(closeModal());
+                    navigate(-1);
                   }}
                 >
                   <OrderInfo />
