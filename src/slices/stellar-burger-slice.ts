@@ -166,11 +166,6 @@ const stellarBurgerSlice = createSlice({
         action.payload
       );
     }
-    // // Сбрасываем данные пользователя
-    // resetUser(state) {
-    //   state.user = { name: '', email: '' }; // Сбрасываем данные пользователя
-    //   state.isAuthenticated = false; // Сбрасываем флаг аутентификации
-    // }
   },
   selectors: {
     selectIngredients: (state) => state.ingredients, // Получить список ингредиентов
