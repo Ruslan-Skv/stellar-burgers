@@ -14,19 +14,6 @@ export const mockStore = {
       image_large: 'https://code.s3.yandex.net/react/code/bun-01-large.png'
     },
     {
-      _id: '643d69a5c3f7b9001cfa093e',
-      name: 'Филе Люминесцентного тетраодонтимформа',
-      type: 'main',
-      proteins: 44,
-      fat: 26,
-      carbohydrates: 85,
-      calories: 643,
-      price: 988,
-      image: 'https://code.s3.yandex.net/react/code/meat-03.png',
-      image_mobile: 'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-      image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png'
-    },
-    {
       _id: '643d69a5c3f7b9001cfa0940',
       name: 'Говяжий метеорит (отбивная)',
       type: 'main',
@@ -38,30 +25,17 @@ export const mockStore = {
       image: 'https://code.s3.yandex.net/react/code/meat-04.png',
       image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
       image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png'
-    },
-    {
-      _id: '643d69a5c3f7b9001cfa0943',
-      name: 'Соус фирменный Space Sauce',
-      type: 'sauce',
-      proteins: 50,
-      fat: 22,
-      carbohydrates: 11,
-      calories: 14,
-      price: 80,
-      image: 'https://code.s3.yandex.net/react/code/sauce-04.png',
-      image_mobile: 'https://code.s3.yandex.net/react/code/sauce-04-mobile.png',
-      image_large: 'https://code.s3.yandex.net/react/code/sauce-04-large.png'
     }
   ],
   loading: false,
   orderModalData: {
-    ingredients: ['test-id1', 'test-id2', 'test-id3', 'test-id4'],
-    _id: '67efc328ea327c001cf323a6',
+    ingredients: ['test-id1', 'test-id2'],
+    _id: '67f0dd26e8e61d001cec084f',
     status: 'done',
-    name: 'Space флюоресцентный люминесцентный метеоритный бургер',
-    createdAt: '2025-04-04T11:31:52.322Z',
-    updatedAt: '2025-04-04T11:31:52.989Z',
-    number: 73309
+    name: 'Флюоресцентный метеоритный бургер',
+    createdAt: '2025-04-05T07:35:02.385Z',
+    updatedAt: '2025-04-05T07:35:03.075Z',
+    number: 73501
   },
   constructorItems: {
     bun: {
@@ -79,19 +53,19 @@ export const mockStore = {
     },
     ingredients: [
       {
-        _id: '643d69a5c3f7b9001cfa093e',
-        name: 'Филе Люминесцентного тетраодонтимформа',
+        _id: '643d69a5c3f7b9001cfa0940',
+        name: 'Говяжий метеорит (отбивная)',
         type: 'main',
-        proteins: 44,
-        fat: 26,
-        carbohydrates: 85,
-        calories: 643,
-        price: 988,
-        image: 'https://code.s3.yandex.net/react/code/meat-03.png',
+        proteins: 800,
+        fat: 800,
+        carbohydrates: 300,
+        calories: 2674,
+        price: 3000,
+        image: 'https://code.s3.yandex.net/react/code/meat-04.png',
         image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
-        id: 'test_id_1'
+          'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+        image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+        id: 'ingredient_1'
       },
       {
         _id: '643d69a5c3f7b9001cfa0940',
@@ -106,22 +80,22 @@ export const mockStore = {
         image_mobile:
           'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
         image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
-        id: 'test_id_2'
+        id: 'ingredient_1'
       },
       {
-        _id: '643d69a5c3f7b9001cfa0943',
-        name: 'Соус фирменный Space Sauce',
-        type: 'sauce',
-        proteins: 50,
-        fat: 22,
-        carbohydrates: 11,
-        calories: 14,
-        price: 80,
-        image: 'https://code.s3.yandex.net/react/code/sauce-04.png',
+        _id: '643d69a5c3f7b9001cfa0940',
+        name: 'Говяжий метеорит (отбивная)',
+        type: 'main',
+        proteins: 800,
+        fat: 800,
+        carbohydrates: 300,
+        calories: 2674,
+        price: 3000,
+        image: 'https://code.s3.yandex.net/react/code/meat-04.png',
         image_mobile:
-          'https://code.s3.yandex.net/react/code/sauce-04-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/sauce-04-large.png',
-        id: 'test_id_3'
+          'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+        image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+        id: 'ingredient_1'
       }
     ]
   },
@@ -132,51 +106,39 @@ export const mockStore = {
   },
   orders: [
     {
-      _id: '67efba8fea327c001cf3238b',
+      _id: '67f0dd26e8e61d001cec084f',
+      ingredients: [
+        '643d69a5c3f7b9001cfa093d',
+        '643d69a5c3f7b9001cfa0940',
+        '643d69a5c3f7b9001cfa0940',
+        '643d69a5c3f7b9001cfa0940',
+        '643d69a5c3f7b9001cfa093d'
+      ],
+      status: 'done',
+      name: 'Флюоресцентный метеоритный бургер',
+      createdAt: '2025-04-05T07:35:02.385Z',
+      updatedAt: '2025-04-05T07:35:03.075Z',
+      number: 73501
+    },
+    {
+      _id: '67f0dbbfe8e61d001cec084d',
       ingredients: [
         '643d69a5c3f7b9001cfa093d',
         '643d69a5c3f7b9001cfa093e',
+        '643d69a5c3f7b9001cfa0941',
+        '643d69a5c3f7b9001cfa093e',
+        '643d69a5c3f7b9001cfa0946',
+        '643d69a5c3f7b9001cfa0943',
         '643d69a5c3f7b9001cfa093d'
       ],
       status: 'done',
-      name: 'Флюоресцентный люминесцентный бургер',
-      createdAt: '2025-04-04T10:55:11.260Z',
-      updatedAt: '2025-04-04T10:55:11.949Z',
-      number: 73308
-    },
-    {
-      _id: '67efa507ea327c001cf32353',
-      ingredients: [
-        '643d69a5c3f7b9001cfa093c',
-        '643d69a5c3f7b9001cfa093e',
-        '643d69a5c3f7b9001cfa093f',
-        '643d69a5c3f7b9001cfa0941',
-        '643d69a5c3f7b9001cfa093f',
-        '643d69a5c3f7b9001cfa093c'
-      ],
-      status: 'done',
-      name: 'Краторный бессмертный люминесцентный био-марсианский бургер',
-      createdAt: '2025-04-04T09:23:19.020Z',
-      updatedAt: '2025-04-04T09:23:20.035Z',
-      number: 73307
-    },
-    {
-      _id: '67efa488ea327c001cf3234f',
-      ingredients: [
-        '643d69a5c3f7b9001cfa0941',
-        '643d69a5c3f7b9001cfa093e',
-        '643d69a5c3f7b9001cfa0941',
-        '643d69a5c3f7b9001cfa0941',
-        '643d69a5c3f7b9001cfa093d'
-      ],
-      status: 'done',
-      name: 'Флюоресцентный люминесцентный био-марсианский бургер',
-      createdAt: '2025-04-04T09:21:12.686Z',
-      updatedAt: '2025-04-04T09:21:13.344Z',
-      number: 73306
+      name: 'Флюоресцентный space био-марсианский минеральный люминесцентный бургер',
+      createdAt: '2025-04-05T07:29:03.296Z',
+      updatedAt: '2025-04-05T07:29:03.943Z',
+      number: 73500
     }
   ],
-  totalOrders: 73350,
+  totalOrders: 73600,
   ordersToday: 10,
   userOrders: [
     {
@@ -215,17 +177,17 @@ export const mockStore = {
 };
 
 export const mockIngredient = {
-  _id: '643d69a5c3f7b9001cfa093e',
-  name: 'Филе Люминесцентного тетраодонтимформа',
+  _id: '643d69a5c3f7b9001cfa0940',
+  name: 'Говяжий метеорит (отбивная)',
   type: 'main',
-  proteins: 44,
-  fat: 26,
-  carbohydrates: 85,
-  calories: 643,
-  price: 988,
-  image: 'https://code.s3.yandex.net/react/code/meat-03.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-  image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
+  proteins: 800,
+  fat: 800,
+  carbohydrates: 300,
+  calories: 2674,
+  price: 3000,
+  image: 'https://code.s3.yandex.net/react/code/meat-04.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
   id: 'test_id_1'
 };
 

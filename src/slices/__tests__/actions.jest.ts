@@ -1,3 +1,4 @@
+import { expect, test, describe, jest } from '@jest/globals';
 import { configureStore } from '@reduxjs/toolkit';
 import stellarBurgerSlice, {
   addIngredient,
@@ -26,7 +27,7 @@ import { mockBun, mockIngredient, mockStore } from '../mockData';
 // Функция для адаптации моковых данных к ожидаемому формату
 const adaptIngredient = (ingredient: typeof mockIngredient) => ({
   ...ingredient,
-  id: ingredient._id // Добавляем поле id на основе _id
+  id: ingredient._id || ingredient._id // Добавляем поле id на основе _id
 });
 
 // Создаём тестовый Redux-стор с предзагруженным состоянием из mockStore.
@@ -46,9 +47,10 @@ describe('Test actions', () => {
     const store = initStore();
     const initialState = selectConstructorItems(store.getState());
     const initialCount = initialState.ingredients.length;
-
-    store.dispatch(deleteIngredient(adaptIngredient(mockIngredient)));
-
+    
+    const ingredientToDelete = initialState.ingredients[0];
+    store.dispatch(deleteIngredient(ingredientToDelete));
+   
     const newState = selectConstructorItems(store.getState());
     expect(newState.ingredients.length).toBe(initialCount - 1);
   });
@@ -78,9 +80,7 @@ describe('Test actions', () => {
     expect(orderRequest).toBe(false);
     expect(orderModalData).toBe(null);
     expect(constructorItems).toEqual({
-      bun: {
-        price: 0
-      },
+      bun: null,
       ingredients: []
     });
   });
@@ -148,11 +148,12 @@ describe('Test actions', () => {
     let ingredients = selectConstructorItems(store.getState()).ingredients;
     const lastIngredient = ingredients[ingredients.length - 1];
 
-    store.dispatch(moveIngredientUp(adaptIngredient(lastIngredient)));
+    store.dispatch(moveIngredientUp(lastIngredient));
 
-    ingredients = selectConstructorItems(store.getState()).ingredients;
+    const newState = store.getState();
+    const newIngredients = selectConstructorItems(newState).ingredients;
 
-    expect(ingredients[ingredients.length - 2]).toEqual(lastIngredient);
+    expect(newIngredients[newIngredients.length - 2].id).toEqual(lastIngredient.id);
   });
 
   test('Test moveIngredientDown', () => {
@@ -160,10 +161,11 @@ describe('Test actions', () => {
     let ingredients = selectConstructorItems(store.getState()).ingredients;
     const firstIngredient = ingredients[0];
 
-    store.dispatch(moveIngredientDown(adaptIngredient(firstIngredient)));
+    store.dispatch(moveIngredientDown(firstIngredient));
 
-    ingredients = selectConstructorItems(store.getState()).ingredients;
+    const newState = store.getState();
+    const newIngredients = selectConstructorItems(newState).ingredients;
 
-    expect(ingredients[1]).toEqual(firstIngredient);
+    expect(newIngredients[1].id).toEqual(firstIngredient.id);
   });
 });

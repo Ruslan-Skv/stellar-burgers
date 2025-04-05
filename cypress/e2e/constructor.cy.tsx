@@ -3,23 +3,27 @@ const API_URL = Cypress.env('BURGER_API_URL');
 
 // Селекторы
 const SELECTORS = {
-  NO_BUN_1: '[data-cy=no_bun_text_1]', // Текст "Выберите булки" (верх)
-  NO_BUN_2: '[data-cy=no_bun_text_2]', // Текст "Выберите булки" (низ)
-  NO_INGREDIENTS: '[data-cy=no_ingredients_text]', // Текст "Выберите начинку"
-  BUN: '[data-cy=bun_0] button', // Кнопка добавления булки
-  INGREDIENT: '[data-cy=ingredient_0] button', // Кнопка добавления ингредиента
-  CONSTRUCTOR: '[data-cy=constructor_section]', // Конструктор
-  INGREDIENT_ELEMENT: '[data-cy=ingredient_element]', //Элемент ингридиента
-  INGREDIENT_MODAL: '[data-cy=ingredient_modal]', //Модалка с ингридиентом
-  MODAL_CLOSE: '[data-cy=close_modal_btn]', //Кнопка крестик модалки
-  ORDER_BUTTON: '[data-cy=new_order_total] button', // Кнопка оформления заказа
-  ORDER_NUMBER: '[data-cy=new_order_number]' //номер заказа в модальном окне
+  NO_BUN_1: `[data-cy=no_bun_text_1]`, // Текст "Выберите булки" (верх)
+  NO_BUN_2: `[data-cy=no_bun_text_2]`, // Текст "Выберите булки" (низ)
+  NO_INGREDIENTS: `[data-cy=no_ingredients_text]`, // Текст "Выберите начинку"
+  BUN: `[data-cy=bun_0] button`, // Кнопка добавления булки
+  INGREDIENT: `[data-cy=ingredient_0] button`, // Кнопка добавления ингредиента
+  CONSTRUCTOR: `[data-cy=constructor_section]`, // Конструктор
+  INGREDIENT_ELEMENT: `[data-cy=ingredient_element]`, //Элемент ингридиента
+  INGREDIENT_MODAL: `[data-cy=ingredient_modal]`, //Модалка с ингридиентом
+  MODAL_CLOSE: `[data-cy=close_modal_btn]`, //Кнопка крестик модалки
+  ORDER_BUTTON: `[data-cy=new_order_total] button`, // Кнопка оформления заказа
+  ORDER_NUMBER: `[data-cy=new_order_number]` //номер заказа в модальном окне
 };
 
 Cypress.on('uncaught:exception', () => false);
 
 // Настройки перед каждым тестом
 beforeEach(() => {
+  // Очистка перед тестом
+  cy.clearAllCookies();
+  cy.clearAllLocalStorage();
+
   window.localStorage.setItem('refreshToken', 'testRefreshToken');
   cy.setCookie('accessToken', 'testAccessToken');
 
