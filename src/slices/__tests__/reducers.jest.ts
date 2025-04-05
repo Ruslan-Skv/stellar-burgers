@@ -42,8 +42,8 @@ function initStore() {
   });
 }
 
-describe('Test actions', () => {
-  test('Test deleteIngredient', () => {
+describe('Тест actions', () => {
+  test('Тест deleteIngredient', () => {
     const store = initStore();
     const initialState = selectConstructorItems(store.getState());
     const initialCount = initialState.ingredients.length;
@@ -55,7 +55,7 @@ describe('Test actions', () => {
     expect(newState.ingredients.length).toBe(initialCount - 1);
   });
 
-  test('Test addIngredient', () => {
+  test('Тест addIngredient', () => {
     const store = initStore();
     const initialState = selectConstructorItems(store.getState());
     const initialIngredientCount = initialState.ingredients.length;
@@ -69,7 +69,7 @@ describe('Test actions', () => {
     expect(newState.bun?.name).toEqual(mockBun.name);
   });
 
-  test('Test closeOrderRequest', () => {
+  test('Тест closeOrderRequest', () => {
     const store = initStore();
     store.dispatch(closeOrderRequest());
 
@@ -85,7 +85,7 @@ describe('Test actions', () => {
     });
   });
 
-  test('Test removeOrders', () => {
+  test('Тест removeOrders', () => {
     const store = initStore();
     const initialOrders = selectOrders(store.getState()).length;
     store.dispatch(removeOrders());
@@ -94,7 +94,7 @@ describe('Test actions', () => {
     expect(orders).toBe(0);
   });
 
-  test('Test removeUserOrders', () => {
+  test('Тест removeUserOrders', () => {
     const store = initStore();
     const initialOrders = selectUserOrders(store.getState())!.length;
     store.dispatch(removeUserOrders());
@@ -103,7 +103,7 @@ describe('Test actions', () => {
     expect(orders).toBe(null);
   });
 
-  test('Test init', () => {
+  test('Тест init', () => {
     const store = initStore();
     const beforeInit = selectIsInit(store.getState());
     store.dispatch(init());
@@ -112,7 +112,7 @@ describe('Test actions', () => {
     expect(afterInit).toBe(true);
   });
 
-  test('Test openModal', () => {
+  test('Тест openModal', () => {
     const store = initStore();
     const beforeOpen = selectIsModalOpened(store.getState());
     store.dispatch(openModal());
@@ -121,21 +121,21 @@ describe('Test actions', () => {
     expect(afterOpen).toBe(true);
   });
 
-  test('Test closeModal', () => {
+  test('Тест closeModal', () => {
     const store = initStore();
     store.dispatch(closeModal());
     const isOpen = selectIsModalOpened(store.getState());
     expect(isOpen).toBe(false);
   });
 
-  test('Test setErrorText', () => {
+  test('Тест setErrorText', () => {
     const store = initStore();
     store.dispatch(setErrorText('my test error'));
     const errorText = selectErrorText(store.getState());
     expect(errorText).toBe('my test error');
   });
 
-  test('Test removeErrorText', () => {
+  test('Тест removeErrorText', () => {
     const store = initStore();
     store.dispatch(setErrorText('Error here!'));
     store.dispatch(removeErrorText());
@@ -143,7 +143,7 @@ describe('Test actions', () => {
     expect(errorText).toBe('');
   });
 
-  test('Test moveIngredientUp', () => {
+  test('Тест moveIngredientUp', () => {
     const store = initStore();
     let ingredients = selectConstructorItems(store.getState()).ingredients;
     const lastIngredient = ingredients[ingredients.length - 1];
@@ -156,7 +156,7 @@ describe('Test actions', () => {
     expect(newIngredients[newIngredients.length - 2].id).toEqual(lastIngredient.id);
   });
 
-  test('Test moveIngredientDown', () => {
+  test('Тест moveIngredientDown', () => {
     const store = initStore();
     let ingredients = selectConstructorItems(store.getState()).ingredients;
     const firstIngredient = ingredients[0];
@@ -169,7 +169,7 @@ describe('Test actions', () => {
     expect(newIngredients[1].id).toEqual(firstIngredient.id);
   });
 
-  test('Test not mutate state on unknown action', () => {
+  test('Тест редьюсер не мутирует состояние при вызове с неизвестным экшеном', () => {
     const store = initStore();
     const initialState = store.getState().stellarBurger;
     

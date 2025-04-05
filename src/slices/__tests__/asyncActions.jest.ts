@@ -12,9 +12,9 @@ import stellarBurgerSlice, {
   initialState
 } from '../stellar-burger-slice';
 
-describe('Test async actions', () => {
+describe('Тест async actions', () => {
   // Тест для состояния pending при запросе данных пользователя
-  test('Test getUserThunk pending', () => {
+  test('Тест getUserThunk pending', () => {
     // Вызываем редьюсер с действием getUserThunk.pending
     const state = stellarBurgerSlice(initialState, getUserThunk.pending(''));
 
@@ -23,7 +23,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для успешного получения данных пользователя
-  test('Test getUserThunk fullfiled', () => {
+  test('Тест getUserThunk fullfiled', () => {
     // Моковые данные пользователя
     const mockResponse = {
       success: true,
@@ -40,7 +40,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для ошибки при получении данных пользователя
-  test('Test getUserTnunk rejected', () => {
+  test('Тест getUserTnunk rejected', () => {
     // Моковая ошибка
     const mockAnswer = { name: 'test', message: 'Произошла ошибка' };
     // Вызываем редьюсер с действием ошибки
@@ -59,7 +59,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для состояния pending при загрузке ингредиентов
-  test('Test fetchIngredients pending', () => {
+  test('Тест fetchIngredients pending', () => {
     const state = stellarBurgerSlice(
       initialState,
       fetchIngredients.pending('')
@@ -69,7 +69,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для успешной загрузки ингредиентов
-  test('Test fetchIngredients fulfilled', () => {
+  test('Тест fetchIngredients fulfilled', () => {
     // Моковые данные ингредиентов
     const mockResponse = [
       {
@@ -99,7 +99,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для ошибки при загрузке ингредиентов
-  test('Test fetchIngredients rejected', () => {
+  test('Тест fetchIngredients rejected', () => {
     const mockAnswer = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -110,7 +110,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для состояния pending при создании нового заказа
-  test('Test fetchNewOrder pending', () => {
+  test('Тест fetchNewOrder pending', () => {
     const mockOrder = ['testid1', 'testid2', 'testid3'];
     const state = stellarBurgerSlice(
       initialState,
@@ -122,7 +122,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для ошибки при создании заказа
-  test('Test fetchNewOrder rejected', () => {
+  test('Тест fetchNewOrder rejected', () => {
     const mockAnswer = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -134,7 +134,7 @@ describe('Test async actions', () => {
   });
 
   // Тест для успешного создания заказа
-  test('Test fetchNewOrder fulfilled', () => {
+  test('Тест fetchNewOrder fulfilled', () => {
     // Моковые данные заказа
     const mockResponse = {
       success: true,
@@ -167,7 +167,7 @@ describe('Test async actions', () => {
     expect(state.orderRequest).toBe(false);
   });
 
-  test('Test fetchLoginUser pending', () => {
+  test('Тест fetchLoginUser pending', () => {
     const state = stellarBurgerSlice(
       initialState,
       fetchLoginUser.pending('', { email: 'test@mail.ru', password: 'test' })
@@ -176,7 +176,7 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(true);
   });
 
-  test('Test fetchLoginUser rejected', () => {
+  test('Тест fetchLoginUser rejected', () => {
     const mockAnswer = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -190,7 +190,7 @@ describe('Test async actions', () => {
     expect(state.errorText).toBe('Произошла ошибка');
   });
 
-  test('Test fetchLoginUser fulfiled', () => {
+  test('Тест fetchLoginUser fulfiled', () => {
     const state = stellarBurgerSlice(
       initialState,
       fetchLoginUser.fulfilled(
@@ -209,7 +209,7 @@ describe('Test async actions', () => {
     expect(state.isAuthenticated).toBe(true);
   });
 
-  test('Test fetchRegisterUser pending', () => {
+  test('Тест fetchRegisterUser pending', () => {
     const state = stellarBurgerSlice(
       initialState,
       fetchRegisterUser.pending(
@@ -222,7 +222,7 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(true);
   });
 
-  test('Test fetchRegisterUser rejected', () => {
+  test('Тест fetchRegisterUser rejected', () => {
     const mockAnswer = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -237,7 +237,7 @@ describe('Test async actions', () => {
     expect(state.errorText).toBe('Произошла ошибка');
   });
 
-  test('Test fetchRegisterUser fulfilled', () => {
+  test('Тест fetchRegisterUser fulfilled', () => {
     const state = stellarBurgerSlice(
       initialState,
       fetchRegisterUser.fulfilled(
@@ -256,13 +256,13 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(false);
   });
 
-  test('Test fetchFeed pending', () => {
+  test('Тест fetchFeed pending', () => {
     const state = stellarBurgerSlice(initialState, fetchFeed.pending(''));
 
     expect(state.loading).toBe(true);
   });
 
-  test('Test fetchFeed rejected', () => {
+  test('Тест fetchFeed rejected', () => {
     const mockAnswer = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -272,7 +272,7 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(false);
   });
 
-  test('Test fetchFeed fulfilled', () => {
+  test('Тест fetchFeed fulfilled', () => {
     const mockResponse = {
       success: true,
       total: 100,
@@ -306,13 +306,13 @@ describe('Test async actions', () => {
     expect(state.ordersToday).toEqual(mockResponse.totalToday);
   });
 
-  test('Test fetchUserOrders pending', () => {
+  test('Тест fetchUserOrders pending', () => {
     const state = stellarBurgerSlice(initialState, fetchUserOrders.pending(''));
 
     expect(state.loading).toBe(true);
   });
 
-  test('Test fetchUserOrders rejected', () => {
+  test('Тест fetchUserOrders rejected', () => {
     const mockAnswer = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -322,7 +322,7 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(false);
   });
 
-  test('Test fetchUserOrders fulfilled', () => {
+  test('Тест fetchUserOrders fulfilled', () => {
     const mockResponse = [
       {
         _id: '664e927097ede0001d06bdb9',
@@ -347,13 +347,13 @@ describe('Test async actions', () => {
     expect(state.userOrders).toEqual(mockResponse);
   });
 
-  test('Test fetchLogout pending', () => {
+  test('Тест fetchLogout pending', () => {
     const state = stellarBurgerSlice(initialState, fetchLogout.pending(''));
 
     expect(state.loading).toBe(true);
   });
 
-  test('Test fetchLogout rejected', () => {
+  test('Тест fetchLogout rejected', () => {
     const mockError = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -363,7 +363,7 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(false);
   });
 
-  test('Test fetchLogout fulfilled', () => {
+  test('Тест fetchLogout fulfilled', () => {
     const mockAnswer = { success: true };
     const state = stellarBurgerSlice(
       initialState,
@@ -375,7 +375,7 @@ describe('Test async actions', () => {
     expect(state.isAuthenticated).toBe(false);
   });
 
-  test('Test fetchUpdateUser pending', () => {
+  test('Тест fetchUpdateUser pending', () => {
     const state = stellarBurgerSlice(
       initialState,
       fetchUpdateUser.pending('', { name: 'test' })
@@ -383,7 +383,7 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(true);
   });
 
-  test('Test fetchUpdateUser rejected', () => {
+  test('Тест fetchUpdateUser rejected', () => {
     const mockError = { name: 'test', message: 'Произошла ошибка' };
     const state = stellarBurgerSlice(
       initialState,
@@ -392,7 +392,7 @@ describe('Test async actions', () => {
     expect(state.loading).toBe(false);
   });
 
-  test('Test fetchUpdateUser fulfilled', () => {
+  test('Тест fetchUpdateUser fulfilled', () => {
     const mockUser = { name: 'testuser', email: 'changedEmail@mail.ru' };
     const mockResponse = {
       success: true,
