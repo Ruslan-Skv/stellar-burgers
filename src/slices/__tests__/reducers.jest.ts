@@ -168,4 +168,19 @@ describe('Test actions', () => {
 
     expect(newIngredients[1].id).toEqual(firstIngredient.id);
   });
+
+  test('Test not mutate state on unknown action', () => {
+    const store = initStore();
+    const initialState = store.getState().stellarBurger;
+    
+    // Создаем неизвестный экшен
+    const unknownAction = { type: 'UNKNOWN_ACTION' };
+    store.dispatch(unknownAction);
+    
+    const newState = store.getState().stellarBurger;
+    
+    expect(newState).toEqual(initialState);
+    // Проверяем, что это тот же объект (не была создана копия)
+    expect(newState).toBe(initialState);
+  });
 });
