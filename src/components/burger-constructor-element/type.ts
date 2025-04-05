@@ -5,3 +5,11 @@ export type BurgerConstructorElementProps = {
   index: number;
   totalItems: number;
 };
+
+// export type BurgerConstructorElementProps = {
+//   ingredient: TConstructorIngredient & TIngredientUnique;
+//   index: number;
+//   totalItems: number;
+// };
+
+
