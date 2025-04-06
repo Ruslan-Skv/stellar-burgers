@@ -6,8 +6,8 @@ const SELECTORS = {
   NO_BUN_1: `[data-cy=no_bun_text_1]`, // Текст "Выберите булки" (верх)  (BurgerConstructorUI)
   NO_BUN_2: `[data-cy=no_bun_text_2]`, // Текст "Выберите булки" (низ)  (BurgerConstructorUI)
   NO_INGREDIENTS: `[data-cy=no_ingredients_text]`, // Текст "Выберите начинку" (BurgerConstructorUI)
-  BUN: `[data-cy=bun_0] button`, // Кнопка добавления булки (BurgerIngredientUI)
-  INGREDIENT: `[data-cy=ingredient_0] button`, // Кнопка добавления ингредиента (BurgerIngredientUI)
+  ADD_BUN_BUTTON: `[data-cy=bun_0] button`, // Кнопка добавления булки (BurgerIngredientUI)
+  ADD_INGREDIENT_BUTTON: `[data-cy=ingredient_0] button`, // Кнопка добавления ингредиента (BurgerIngredientUI)
   CONSTRUCTOR: `[data-cy=constructor_section]`, // Конструктор (BurgerConstructorUI)
   INGREDIENT_ELEMENT: `[data-cy=ingredient_element]`, //Элемент ингридиента (BurgerConstructorElementUI)
   INGREDIENT_MODAL: `[data-cy=ingredient_modal]`, //Модалка с ингридиентом (IngredientDetailsUI)
@@ -15,7 +15,8 @@ const SELECTORS = {
   ORDER_BUTTON: `[data-cy=new_order_total] button`, // Кнопка оформления заказа (BurgerConstructorUI)
   ORDER_NUMBER: `[data-cy=new_order_number]`, //Номер заказа в модальном окне (OrderDetailsUI)
   INGREDIENT_NAME: `[data-cy=ingredient_name]`, // Название ингредиента в списке  (BurgerIngredientUI)
-  MODAL_INGREDIENT_NAME: `[data-cy=modal_ingredient_name]` // Название ингредиента в модальном окне (IngredientDetailsUI)
+  MODAL_INGREDIENT_NAME: `[data-cy=modal_ingredient_name]`, // Название ингредиента в модальном окне (IngredientDetailsUI)
+  INGREDIENT: `[data-cy=ingredient]` // Картинка ингредиента в списке
 };
 
 Cypress.on('uncaught:exception', () => false);
@@ -66,8 +67,8 @@ describe('Проверка работоспособности приложени
     cy.get(SELECTORS.NO_INGREDIENTS).should('contain', 'Выберите начинку');
 
     // Добавляем булку и ингредиент
-    cy.get(SELECTORS.BUN).click();
-    cy.get(SELECTORS.INGREDIENT).click({ multiple: true });
+    cy.get(SELECTORS.ADD_BUN_BUTTON).click();
+    cy.get(SELECTORS.ADD_INGREDIENT_BUTTON).click({ multiple: true });
 
     // Проверяем изменения
     cy.get(SELECTORS.CONSTRUCTOR).should('contain', 'булка');
@@ -81,8 +82,8 @@ describe('Проверка работоспособности приложени
     });
 
     // Добавляем ингредиенты
-    cy.get(SELECTORS.BUN).click();
-    cy.get(SELECTORS.INGREDIENT).click({ multiple: true });
+    cy.get(SELECTORS.ADD_BUN_BUTTON).click();
+    cy.get(SELECTORS.ADD_INGREDIENT_BUTTON).click({ multiple: true });
 
     // Оформляем заказ
     cy.get(SELECTORS.ORDER_BUTTON).click();
@@ -105,49 +106,25 @@ describe('Проверка работоспособности приложени
   it('проверка работы модального окна ингредиента', () => {
     // Убедимся, что модальное окно изначально отсутствует
     cy.get(SELECTORS.INGREDIENT_MODAL).should('not.exist');
-
+    // Открываем модальное окно
+    cy.get(SELECTORS.INGREDIENT).first().click();
+    // Проверяем, что модальное окно открылось
+    cy.get(SELECTORS.INGREDIENT_MODAL).should('be.visible');
     // Получаем название ингредиента из списка
-    cy.get(SELECTORS.INGREDIENT.replace(' button', '')).first().then(($ingredient) => {
-      const ingredientName = $ingredient
-        .find('[data-cy=ingredient_name]')
-        .text()
-        .trim();
-        cy.log(`Название ингредиента: ${ingredientName}`);
-
-      // Кликаем на ингредиент для открытия модального окна
-      cy.get(SELECTORS.INGREDIENT).first().click();
-      cy.log('Клик по ингредиенту выполнен');
-
-      // Проверяем, что модальное окно открылось
-      cy.get(SELECTORS.INGREDIENT_MODAL).should('be.visible');
-      cy.log('Модальное окно найдено');
-
-      // Проверяем, что в модальном окне отображается информация о выбранном ингредиенте
-      cy.get('[data-cy=modal_ingredient_name]').should(
-        'contain',
-        ingredientName
-      );
-      cy.log('Информация о выбранном ингредиенте отображается корректно');
-
-      // Закрываем модальное окно по клику на крестик
-      cy.get(SELECTORS.MODAL_CLOSE).click();
-      cy.log('Модальное окно закрыто по крестику');
-      
-      // Убедимся, что модальное окно закрылось
-      cy.get(SELECTORS.INGREDIENT_MODAL).should('not.exist');
-      cy.log('Модальное окно успешно закрылось');
-
-      // // Открываем модальное окно снова
-      // cy.get(SELECTORS.INGREDIENT).click();
-
-      // // Проверяем, что модальное окно открылось
-      // cy.get(SELECTORS.INGREDIENT_MODAL).should('be.visible');
-
-      // // Закрываем модальное окно по клику на оверлей
-      // cy.get(SELECTORS.INGREDIENT_MODAL).click('topLeft');
-
-      // // Убедимся, что модальное окно закрылось
-      // cy.get(SELECTORS.INGREDIENT_MODAL).should('not.exist');
-    });
+    cy.get(SELECTORS.INGREDIENT_NAME)
+      .first()
+      .then(($listName) => {
+        const listIngredientName = $listName.text().trim();
+        // Получаем название ингредиента из модального окна
+        cy.get(SELECTORS.MODAL_INGREDIENT_NAME).then(($modalName) => {
+          const modalIngredientName = $modalName.text().trim();
+          // Проверяем совпадение названий
+          expect(listIngredientName).to.equal(modalIngredientName);
+        });
+      });
+    // Закрываем модальное окно по клику на крестик
+    cy.get(SELECTORS.MODAL_CLOSE).click();
+    // Убедимся, что модальное окно закрылось
+    cy.get(SELECTORS.INGREDIENT_MODAL).should('not.exist');
   });
 });
